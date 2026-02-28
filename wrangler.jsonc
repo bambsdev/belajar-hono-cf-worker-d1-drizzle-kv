@@ -1,0 +1,46 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "deploy-to-cf-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-02-28",
+  "assets": {
+    "directory": "./public", // untuk akses data static
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "contact-manajement",
+      "database_id": "e2cd305f-0759-4949-ad57-417bf252c084",
+      "remote": true,
+    },
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "KV_BINDING",
+      "id": "bd6dc9e62f2e46dea724f6a66d0b7e71",
+    },
+  ],
+  // "compatibility_flags": [
+  //   "nodejs_compat"
+  // ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MY_BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+  // "d1_databases": [
+  //   {
+  //     "binding": "MY_DB",
+  //     "database_name": "my-database",
+  //     "database_id": ""
+  //   }
+  // ],
+  // "ai": {
+  //   "binding": "AI"
+  // },
+  // "observability": {
+  //   "enabled": true,
+  //   "head_sampling_rate": 1
+  // }
+}
