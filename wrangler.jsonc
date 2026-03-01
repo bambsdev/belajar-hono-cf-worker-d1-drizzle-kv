@@ -20,20 +20,18 @@
       "id": "bd6dc9e62f2e46dea724f6a66d0b7e71",
     },
   ],
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
+  "hyperdrive": [
+    {
+      "binding": "HYPERDRIVE",
+      "id": "1460f098f785403e8a510988052be9cf",
+      "localConnectionString": "postgres://postgres:asdfasdf@localhost:5432/postgres",
+    },
+  ],
+  "compatibility_flags": ["nodejs_compat"],
   // "r2_buckets": [
   //   {
   //     "binding": "MY_BUCKET",
   //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
   //   }
   // ],
   // "ai": {
