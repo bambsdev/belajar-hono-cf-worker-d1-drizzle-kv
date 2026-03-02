@@ -1,54 +1,58 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
+import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 import { Hono } from "hono";
 import { Hyperdrive } from "@cloudflare/workers-types";
 import { eq } from "drizzle-orm";
-import { users } from "../schema/users";
+import { users } from "./schema/users";
+
+const schema = { users };
 
 export interface Env {
   HYPERDRIVE: Hyperdrive;
+  LOCAL_DATABASE_URL: string;
 }
 
-export const hyperdrive = new Hono<{ Bindings: Env }>().basePath("/hyper");
+type AppEnv = {
+  Bindings: Env;
+  Variables: {
+    db: NodePgDatabase<typeof schema>;
+  };
+};
 
-// Middleware — inisiasi client & drizzle sekali di sini,
-// lalu simpan ke context supaya semua route bisa pakai
-hyperdrive.use("*", async (c, next) => {
-  const client = new Client({
-    connectionString: c.env.HYPERDRIVE.connectionString,
+export const hyperdrive = new Hono<AppEnv>().basePath("/hyper");
+
+function getDb(env: Env) {
+  const pool = new Pool({
+    connectionString: env.LOCAL_DATABASE_URL || env.HYPERDRIVE.connectionString,
   });
+  return drizzle(pool, { schema });
+}
 
-  await client.connect();
-  const db = drizzle(client, { schema: { users } });
-
-  c.set("db" as never, db);
-  c.set("client" as never, client);
-
+hyperdrive.use("*", async (c, next) => {
+  const db = getDb(c.env);
+  c.set("db", db);
   await next();
-
-  // Tutup koneksi setelah request selesai
-  await client.end();
 });
 
-// GET /hyper/users — ambil semua user
+// GET /hyper/users
 hyperdrive.get("/users", async (c) => {
-  const db = c.get("db" as never) as ReturnType<typeof drizzle>;
-
   try {
-    const result = await db.select().from(users);
+    const result = await c.get("db").select().from(users);
     return c.json({ result });
   } catch (e) {
     return c.json({ error: e instanceof Error ? e.message : e }, 500);
   }
 });
 
-// GET /hyper/users/:id — ambil user by id
+// GET /hyper/users/:id
 hyperdrive.get("/users/:id", async (c) => {
-  const db = c.get("db" as never) as ReturnType<typeof drizzle>;
   const id = Number(c.req.param("id"));
-
   try {
-    const result = await db.select().from(users).where(eq(users.id, id));
+    const result = await c
+      .get("db")
+      .select()
+      .from(users)
+      .where(eq(users.id, id));
     return c.json({ result });
   } catch (e) {
     return c.json({ error: e instanceof Error ? e.message : e }, 500);

@@ -6,14 +6,6 @@
   "assets": {
     "directory": "./public", // untuk akses data static
   },
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "contact-manajement",
-      "database_id": "e2cd305f-0759-4949-ad57-417bf252c084",
-      "remote": true,
-    },
-  ],
   "kv_namespaces": [
     {
       "binding": "KV_BINDING",
@@ -28,6 +20,14 @@
     },
   ],
   "compatibility_flags": ["nodejs_compat"],
+  "d1_databases": [
+    {
+      "binding": "belajar",
+      "database_name": "belajar",
+      "database_id": "c4149674-ee5e-47f5-8c1b-c8aee7e0a3bb",
+      "remote": true,
+    },
+  ],
   // "r2_buckets": [
   //   {
   //     "binding": "MY_BUCKET",
