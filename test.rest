@@ -1,0 +1,16 @@
+###
+GET https://deploy-to-cf-worker.ibrohimsairony.workers.dev/cache/set?key=name&value=ibrahim&ttl=60
+
+###
+GET https://deploy-to-cf-worker.ibrohimsairony.workers.dev/cache/get?key=name
+
+###
+GET https://deploy-to-cf-worker.ibrohimsairony.workers.dev/cache/delete?key=name
+###
+GET http://localhost:8787/cache/set?key=name&value=ibrohim&ttl=60
+
+###
+GET http://localhost:8787/cache/get?key=name
+
+###
+GET http://localhost:8787/cache/delete?key=name
