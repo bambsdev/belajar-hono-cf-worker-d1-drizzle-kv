@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { kv } from "./kv";
 import { hyperdrive } from "./hyperdrive";
+import analyticsEngine from "./analytics_engine";
 
 const app = new Hono();
 
@@ -13,5 +14,6 @@ app.notFound((c) => {
 app.route("/", kv);
 // app.route("/", d1);
 app.route("/", hyperdrive);
+app.route("/", analyticsEngine);
 
 export default app;

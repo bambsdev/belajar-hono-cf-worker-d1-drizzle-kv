@@ -28,6 +28,13 @@
       "remote": true,
     },
   ],
+  "analytics_engine_datasets": [
+    { "binding": "AUDIT_LOG", "dataset": "audit_log" },
+  ],
+  "vars": {
+    "CF_ACCOUNT_ID": "adalah",
+    "CF_API_TOKEN": "adalah",
+  },
   // "r2_buckets": [
   //   {
   //     "binding": "MY_BUCKET",
